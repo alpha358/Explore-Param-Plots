@@ -1,0 +1,32 @@
+body{
+    padding:0;
+    margin:0;
+}
+td{
+    border: 1px solid #ccc;
+    font-size: 14pt;
+}
+table{
+    border-collapse: collapse;
+}
+thead{
+    text-align:  center;
+}
+tbody img{
+    width: 300px;
+}
+
+/*HEADERS STUFF*/
+td.head, thead{
+    font-weight:bold;
+}
+img{
+    cursor: pointer;
+}
+div#teta_table{
+    position: fixed;
+    right: 0px;
+    top:0px;
+    width: 30px;
+    height: 500px;
+}
