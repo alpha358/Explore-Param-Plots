@@ -1,14 +1,14 @@
 function X = cartprod(varargin)
 %CARTPROD Cartesian product of multiple sets.
 %
-%   X = CARTPROD(A,B,C,...) returns the cartesian product of the sets 
-%   A,B,C, etc, where A,B,C, are numerical vectors.  
+%   X = CARTPROD(A,B,C,...) returns the cartesian product of the sets
+%   A,B,C, etc, where A,B,C, are numerical vectors.
 %
 %   Example: A = [-1 -3 -5];   B = [10 11];   C = [0 1];
-% 
+%
 %   X = cartprod(A,B,C)
 %   X =
-% 
+%
 %     -5    10     0
 %     -3    10     0
 %     -1    10     0
@@ -22,7 +22,7 @@ function X = cartprod(varargin)
 %     -3    11     1
 %     -1    11     1
 %
-%   This function requires IND2SUBVECT, also available (I hope) on the MathWorks 
+%   This function requires IND2SUBVECT, also available (I hope) on the MathWorks
 %   File Exchange site.
 
 
@@ -44,12 +44,12 @@ end
 
 X = zeros(prod(sizeThisSet),numSets);
 for i = 1:size(X,1),
-    
+
     % Envision imaginary n-d array with dimension "sizeThisSet" ...
     % = length(varargin{1}) x length(varargin{2}) x ...
-    
+
     ixVect = ind2subVect(sizeThisSet,i);
-    
+
     for j = 1:numSets,
         X(i,j) = varargin{j}(ixVect(j));
     end
