@@ -1,51 +1,59 @@
-%****************************** Description *******************************
-% ALL PARAMETERS MUST BE NUMERIC !
-% May be updated to strings in the future.
-% *************************************************************************
-
 %% ======================== Loading required code ========================
+addpath('jsonlab-1.5')
 
 plot_name = 'testas';
 
 %% ========================= Defining Parameters ==========================
-paramNames = ['a', 'b', 'c'];
-
+% -------------------- Initializing dictionarys/hashmaps --------------------
+paramValues =  containers.Map();
+paramTypes =  containers.Map();
 
 %                         1 - Slider,    2 - Select
-paramTypes = [1, 1, 1];
+paramTypes('a') = 'slider';
+paramTypes('b') = 'slider';
+paramTypes('c') = 'select';
 
 
-% -------------------- Initializing dictionary/hashmap --------------------
-paramValues =  containers.Map();
 
-%-------------------- Defining parameter value arrays --------------------
-% Parameters are only numeric!
+%--------------------- Defining parameter cell arrays ---------------------
+% Cell arrays determine for all possible parameter values.
+paramValues('a') = num2cell(1:3);
+paramValues('b') = num2cell(1:3);
+paramValues('c') = {'Ex', 'Ey', 'Ez'};
 
-paramValues('a') = 1:3;
-paramValues('b') = 1:3;
-paramValues('c') = 1:3;
 
 % ---------- Constructing cartesian product of parameter values -----------
 temp_paramValsCells = paramValues.values;
     paramNamesCells = paramValues.keys;
 % Cartesian product of sets
-paramValuesCartProd = cartprod(temp_paramValsCells{:});
+paramValuesCartProd = allcomb(temp_paramValsCells{:});
 clear temp_paramValsCells;
 
 %% ============================ Generate plots ============================
 % for n = 1:length(paramValuesCartProd) % go trough all the param values
-for n = 1:1 % go trough all the param values
+% % for n = 1:1 % go trough all the param values
+% % n=1
+%     % ------------------- Multiple parameter asignment --------------------
+%     p = paramValuesCartProd(n,:);
+% %%
+%     % Pass an array as an argument list
+%     fig = plot_api(p{:});
+%
+%     % --------------------------- Save the plot ---------------------------
+%     img_name = generate_img_name( plot_name,  paramNamesCells, p);
+%     save_param_plot(fig, plot_name, img_name);
+%     close(fig);
+% end
 
-    % ------------------- Multiple parameter asignment --------------------
-    p = num2cell(paramValuesCartProd(n,:));
+%% ======================= Save information for JS ========================
 
-    % Pass an array as an argument list
-    fig = plot_api(p{:});
+FileName =  [plot_name '/parameters.json'];
+savejson('', map2struct(paramValues), FileName);
 
-    % --------------------------- Save the plot ---------------------------
-    img_name = generate_img_name( plot_name,  paramNamesCells, p);
-%     TODO: Ar nesumaiso vardu ir reiksmiu ?
-%     Probably not. Probably returns keys and vals in the same order.
-    save_param_plot(fig, name, img_name);
-    close all;
-end
+%  writing json as js string
+S = fileread(FileName);
+S = ['json_string=`', char(10), S  , '`'];
+FID = fopen(FileName, 'w');
+if FID == -1, error('Cannot open file %s', FileName); end
+fwrite(FID, S, 'char');
+fclose(FID);
