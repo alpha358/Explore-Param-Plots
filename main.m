@@ -5,12 +5,13 @@
 
 %% ======================== Loading required code ========================
 
+plot_name = 'testas';
 
 %% ========================= Defining Parameters ==========================
 paramNames = ['a', 'b', 'c'];
 
 
-%                        1 - Slider,    2 - Select
+%                         1 - Slider,    2 - Select
 paramTypes = [1, 1, 1];
 
 
@@ -25,25 +26,25 @@ paramValues('b') = 1:3;
 paramValues('c') = 1:3;
 
 % ---------- Constructing cartesian product of parameter values -----------
-paramValsCells = paramValues.values;
-paramValuesMat = cartprod(paramValsCells{:});
-clear paramValsCells;
-%  some arcane magic of matlab
-
-% t = num2cell([1,2,3,4]);
-% [a,b,c,d] = deal(t{:});
+temp_paramValsCells = paramValues.values;
+    paramNamesCells = paramValues.keys;
+% Cartesian product of sets
+paramValuesCartProd = cartprod(temp_paramValsCells{:});
+clear temp_paramValsCells;
 
 %% ============================ Generate plots ============================
-for n = 1:length(paramValuesMat) % go trough all the param values
-% for n = 1:1 % go trough all the param values
+% for n = 1:length(paramValuesCartProd) % go trough all the param values
+for n = 1:1 % go trough all the param values
 
     % ------------------- Multiple parameter asignment --------------------
-    p = num2cell(paramValuesMat(n,:));
+    p = num2cell(paramValuesCartProd(n,:));
 
-    % Pass an array as a variable list
+    % Pass an array as an argument list
     h = plot_api(p{:});
 
     % --------------------------- Save the plot ---------------------------
-    save_param_plot(h, name, paramNames, p)
-    % TODO: sutvarkyti sasaja tarp paramNames <-> p
+    img_name = generate_img_name( plot_name,  paramNamesCells, p);
+%     TODO: Ar nesumaiso vardu ir reiksmiu ?
+%     Probably not. Probably returns keys and vals in the same order.
+    save_param_plot(h, name, img_name);
 end
