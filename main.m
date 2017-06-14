@@ -40,11 +40,12 @@ for n = 1:1 % go trough all the param values
     p = num2cell(paramValuesCartProd(n,:));
 
     % Pass an array as an argument list
-    h = plot_api(p{:});
+    fig = plot_api(p{:});
 
     % --------------------------- Save the plot ---------------------------
     img_name = generate_img_name( plot_name,  paramNamesCells, p);
 %     TODO: Ar nesumaiso vardu ir reiksmiu ?
 %     Probably not. Probably returns keys and vals in the same order.
-    save_param_plot(h, name, img_name);
+    save_param_plot(fig, name, img_name);
+    close all;
 end
