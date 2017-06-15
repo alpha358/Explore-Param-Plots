@@ -39,6 +39,23 @@
 
       // ---------------------------------------------------------------------
 
+      function generate_img_name(name, paramObj, paramValues) {
+        // name - the name of the plot
+        // paramObj - parameter names and value arrays object
+        // paramValues - specific values of all parameters (vector - not matrix)
+        img_name = name;
+
+        n = 0; // not nice but works
+        for (var p in paramObj) {
+          img_name = img_name +'_'+ p + '='+paramValues[n];
+          n++;
+        }
+        return img_name+'.png';
+      }
+      function get_current_parameter_values() {
+
+      }
+
 
       param = jQuery.parseJSON( json_string );
       //  ----------  Creating sliders ------------------

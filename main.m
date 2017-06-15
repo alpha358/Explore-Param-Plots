@@ -29,7 +29,7 @@ temp_paramValsCells = paramValues.values;
 paramValuesCartProd = allcomb(temp_paramValsCells{:});
 clear temp_paramValsCells;
 
-%% ============================ Generate plots ============================
+% ============================ Generate plots ============================
 % for n = 1:length(paramValuesCartProd) % go trough all the param values
 % % for n = 1:1 % go trough all the param values
 % % n=1
