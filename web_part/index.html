@@ -6,8 +6,11 @@
     <script type="text/javascript" src="js/jquery-ui.js"></script>
     <script type="text/javascript" src="js/require.js"></script>
     <script type="text/javascript" src="parameters.json"></script>
-
+    <!-- TODO: MAKE RESPONSIVE -->
     <script>
+      // ini array current parameter values
+      window.param_set = [];
+
       function create_slider(id, values) {
 
         // Add new HTML
@@ -22,7 +25,10 @@
 
         // initialize JS
         // ---------------------------------------------
+        // Recording Default  Selected Value
+        window.param_set[id] = values[0];
 
+        // Initializing slider
         $("#param_"+id).slider({
             min: 0,
             max: values.length - 1,
@@ -32,6 +38,8 @@
                 $('#val_param_'+id).html(
                     values[ui.value]
                 );
+                window.param_set[id]=values[ui.value];
+                update_img();
             }
         });
 
@@ -39,7 +47,7 @@
 
       // ---------------------------------------------------------------------
 
-      function generate_img_name(name, paramObj, paramValues) {
+      function generate_img_name(name, paramObj) {
         // name - the name of the plot
         // paramObj - parameter names and value arrays object
         // paramValues - specific values of all parameters (vector - not matrix)
@@ -47,39 +55,29 @@
 
         n = 0; // not nice but works
         for (var p in paramObj) {
-          img_name = img_name +'_'+ p + '='+paramValues[n];
+          img_name = img_name +'_'+ p + '='+window.param_set[p];
           n++;
         }
         return img_name+'.png';
       }
-      function get_current_parameter_values() {
+
+      function update_img() {
+        img_name = generate_img_name(
+                                window.plot_name,
+                                window.param,
+                   );
+        $("img#the_img").attr(
+          {"src" : "img/"+img_name}
+        );
+        return img_name;
 
       }
 
+      // ------------- Loading JSON data ----------------------
+      data = jQuery.parseJSON( json_string );
+      window.param = data.parameters;
+      window.plot_name = data.plot_name;
 
-      param = jQuery.parseJSON( json_string );
-      //  ----------  Creating sliders ------------------
-      $(document).ready(function() {
-        for (p in param) {
-          create_slider(p, param[p]);
-          // create slider ...
-          // Create html
-          // Init JS
-        }
-      });
-
-      // $(function() {
-      //     var valMap = [0, 40, 50, 63, 90, 110, 125, 140, 160, 225, 250];
-      //     $("#slider-range").slider({
-      //         min: 1,
-      //         max: valMap.length - 1,
-      //         value: 0,
-      //         slide: function(event, ui) {
-      //             $("#amount").val(valMap[ui.value]);
-      //         }
-      //     });
-      //     //$("#amount").val(valMap[ui.value]);
-      // })
     </script>
 </head>
 <body>
@@ -94,17 +92,17 @@
     }
     #the_img{
       display: block;
-      max-width:800px;
+      max-height: 660px;
       width: auto;
       height: auto;
     }
 </style>
   <table>
     <tr>
-      <td>
-        <img id="the_img" src="testas/img/testas_a=1_b=1_c=Ex.png" alt="">
+      <td style="border:none">
+        <img id="the_img" src="" alt="">
       </td>
-      <td>
+      <td style="border:none">
         <table id='sliders_tbl'>
           <thead>
             <th colspan="2">Parameters</th>
@@ -113,6 +111,19 @@
       </td>
     </tr>
   </table>
+<script type="text/javascript">
+  //  ----------  Creating sliders --------------------------
+  $( document ).ready(function() {
 
+    // creating sliders
+    for (p in window.param) {
+      create_slider(p, window.param[p]);
+    }
+
+    // update img
+    update_img();
+
+  });
+</script>
 </body>
 </html>
