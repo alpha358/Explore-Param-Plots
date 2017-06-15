@@ -8,14 +8,48 @@
     <script type="text/javascript" src="parameters.json"></script>
 
     <script>
-      param = jQuery.parseJSON( json_string );
-      //  ----------  Creating sliders ------------------
-      for (a in param) {
-        // create slider ...
-        // Create html
-        // Init JS
+      function create_slider(id, values) {
+
+        // Add new HTML
+        // --------------------------------------------
+        $('#sliders_tbl').append(
+          "\n <tr> \
+                <td>"+id+"</td> \
+                <td> <div id='param_"+id+"' class='slider'></div>  </td>\
+                <td id=val_param_"+id+">"+values[0]+"</td>\
+              </tr>"
+        );
+
+        // initialize JS
+        // ---------------------------------------------
+
+        $("#param_"+id).slider({
+            min: 0,
+            max: values.length - 1,
+            value: 0,
+            slide: function(event, ui) {
+                // $("#amount").val();
+                $('#val_param_'+id).html(
+                    values[ui.value]
+                );
+            }
+        });
+
       }
 
+      // ---------------------------------------------------------------------
+
+
+      param = jQuery.parseJSON( json_string );
+      //  ----------  Creating sliders ------------------
+      $(document).ready(function() {
+        for (p in param) {
+          create_slider(p, param[p]);
+          // create slider ...
+          // Create html
+          // Init JS
+        }
+      });
 
       // $(function() {
       //     var valMap = [0, 40, 50, 63, 90, 110, 125, 140, 160, 225, 250];
@@ -34,15 +68,34 @@
 <body>
 <style>
     .slider {
-        width: 50px;
+        width: 300px;
         /*position: inherit;*/
         /*floar: left;*/
     }
-
     table td {
         padding: 10px;
     }
+    #the_img{
+      display: block;
+      max-width:800px;
+      width: auto;
+      height: auto;
+    }
 </style>
+  <table>
+    <tr>
+      <td>
+        <img id="the_img" src="testas/img/testas_a=1_b=1_c=Ex.png" alt="">
+      </td>
+      <td>
+        <table id='sliders_tbl'>
+          <thead>
+            <th colspan="2">Parameters</th>
+          </thead>
+        </table>
+      </td>
+    </tr>
+  </table>
 
 </body>
 </html>
