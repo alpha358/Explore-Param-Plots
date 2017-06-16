@@ -27,8 +27,7 @@ paramValues =  containers.Map();
 
 % TODO: make allcomb work at 5
 % Rounding to 5 decimal places due to rounding in allcomb
-paramValues('th_max') = num2cell(round([30 40 50 60 70].*pi./180), 5); % focusing angle   % 1
-
+paramValues('th_max') = num2cell( round([30 40 50 60 70].*pi./180, 5, 'significant') );  % focusing angle   % 1
 paramValues('n1') = num2cell([1.0  1.5  2.5]);                                  % 2
 paramValues('n2') = num2cell([1.0  1.5  2.5]);                                  % 3
 paramValues('spectrum') = {'Nx', 'Ny', 'Nz', 'Mx', 'My', 'Mz'};                 % 4
