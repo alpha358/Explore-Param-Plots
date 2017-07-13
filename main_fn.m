@@ -36,23 +36,6 @@ function  main_fn( plot_name, paramValues, plot_api_handle)
   %% ========================= Copy Needed WEB Files =========================
   copyfile('web_part/*', ['results/' plot_name]);
 
-  wait_h = waitbar(0,'Computing Plots');
-  % ============================ Generate plots ============================
-  for n = 1:length(paramValuesCartProd) % go trough all the param values
-      waitbar( n / length(paramValuesCartProd),  wait_h);
-      % ------------------- Multiple parameter asignment --------------------
-      p = paramValuesCartProd(n,:);
-
-      % Pass an array as an argument list
-      fig = plot_api_handle(p{:});
-
-      % --------------------------- Save the plot ---------------------------
-      img_name = generate_img_name( plot_name,  paramNamesCells, p);
-      save_param_plot(fig, plot_name, img_name);
-      close(fig);
-  end
-  close(wait_h);
-
   %% ======================= Save information for JS ========================
 
   FileName =  ['results/' plot_name '/parameters.json'];
@@ -70,5 +53,24 @@ function  main_fn( plot_name, paramValues, plot_api_handle)
   FID = fopen(FileName, 'w');
   if FID == -1, error('Cannot open file %s', FileName); end
   fwrite(FID, S, 'char'); fclose(FID);
+
+  %% ============================ Generate plots ============================
+  wait_h = waitbar2(0,'Computing Plots');
+  for n = 1:length(paramValuesCartProd) % go trough all the param values
+      waitbar2( n / length(paramValuesCartProd),  wait_h);
+      % ------------------- Multiple parameter asignment --------------------
+      p = paramValuesCartProd(n,:);
+
+      % Pass an array as an argument list
+      fig = plot_api_handle(p{:});
+
+      % --------------------------- Save the plot ---------------------------
+      img_name = generate_img_name( plot_name,  paramNamesCells, p);
+      save_param_plot(fig, plot_name, img_name);
+      close(fig);
+  end
+  close(wait_h);
+
+
 
 end  % main_fn

@@ -1,9 +1,9 @@
 %================================= Paths ==================================
-addpath(genpath('C:\Users\Alfonsas\Desktop\MATLAB\Fresnel_Diffraction'))
+addpath(genpath('C:\Users\AJursenas\Desktop\Fresnel_Diffraction'))
 
 
 %% ============================ Initial stuff =============================
-plot_name = 'BBZ';
+plot_name = 'BBZ2';
 
 % Limit threads for stability
 % maxNumCompThreads(8);
@@ -32,6 +32,8 @@ cellID = @(keys) find(  ismember(paramValues.keys, keys)  );
 
 % diffract_bbz(plt_type, n, alpha1, K, z0)
 %% ======================== handle to the plot fn =========================
+% diffract_bbz( n, alpha1, K )
+
 plot_api_handle = @(varargin) diffract_bbz(             ...
                 varargin{  cellID('plt_type')  },       ...
                 varargin{  cellID('n')  },              ...
