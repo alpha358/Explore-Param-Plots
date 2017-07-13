@@ -21,16 +21,23 @@ paramValues =  containers.Map();
 
 % TODO: make allcomb work at 5
 % Rounding to 5 decimal places due to rounding in allcomb
+paramValues('plt_type') = {'z', 'x', 'mask'};
 paramValues('alpha1') = num2cell( round( linspace(0.1, 1, 20).*pi./180, 5, 'significant') );
+paramValues('K') = num2cell( round( [1.7], 5, 'significant') );
+paramValues('z0') = num2cell( round( linspace(0.01, 0.08, 10), 5, 'significant') );
 paramValues('n') = num2cell( linspace(10, 200, 20) );
 
 % handle to get cell id for parameters
-cellID = @(keys) find(  contains(paramValues.keys, keys)  );
+cellID = @(keys) find(  ismember(paramValues.keys, keys)  );
 
+% diffract_bbz(plt_type, n, alpha1, K, z0)
 %% ======================== handle to the plot fn =========================
 plot_api_handle = @(varargin) diffract_bbz(             ...
-                varargin{  cellID('alpha1')  },         ...   % n1: refractive index 1
-                varargin{  cellID('n')  }              ...   % n2: refractive index 2
+                varargin{  cellID('plt_type')  },       ...
+                varargin{  cellID('n')  },              ...
+                varargin{  cellID('alpha1')  },         ...
+                varargin{  cellID('K')  },              ...
+                varargin{  cellID('z0')  }              ...
               );
 
 % plot_api_handle = @(varargin) plot_api(varargin{:});
