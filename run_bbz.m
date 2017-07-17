@@ -23,7 +23,7 @@ paramValues =  containers.Map();
 % Rounding to 5 decimal places due to rounding in allcomb
 paramValues('mask_type') = {'Burch', 'Phase'};
 paramValues('plt_type') = {'z', 'x'};
-paramValues('alpha1') = num2cell( round( linspace(0.1, 1, 20), 5, 'significant') );
+paramValues('alpha1') = num2cell( round( linspace(0.1, 0.6, 15), 5, 'significant') );
 paramValues('K') = num2cell( round( [1.7], 5, 'significant') );
 paramValues('z0') = num2cell( round( linspace(0.01, 0.08, 10), 5, 'significant') );
 paramValues('n') = num2cell(round( linspace(10, 200, 20), 5, 'significant') );
