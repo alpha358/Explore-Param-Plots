@@ -3,10 +3,10 @@ addpath(genpath('C:\Users\Alfonsas\Desktop\MATLAB\Explore_Focusing_Into_Medium')
 
 
 %% ============================ Initial stuff =============================
-plot_name = 'test3';
+plot_name = 'glass';
 
 % Limit threads for stability
-maxNumCompThreads(8);
+% maxNumCompThreads(8);
 
 %%======= Cell arrays determine for all possible parameter values. ========
 
@@ -31,19 +31,19 @@ paramValues =  containers.Map();
 % TODO: make allcomb work at 5
 % Rounding to 5 decimal places due to rounding in allcomb
 paramValues('th_max') = num2cell( round([5 10 30 40 50 60 70].*pi./180, 5, 'significant') );  % focusing angle   % 1
-paramValues('n1') = num2cell([1.0  1.5  2.5]);                                  % 2
-paramValues('n2') = num2cell([1.0  1.5  2.5]);                                  % 3
+paramValues('n1') = num2cell([1.0 1.5 2.0 2.5 3.0 3.5 4.0]);                                  % 2
+paramValues('n2') = num2cell([1.0 1.5 2.0 2.5 3.0 3.5 4.0]);                                  % 3
 paramValues('spectrum') = {'Nx', 'Ny', 'Nz', 'Mx', 'My', 'Mz'};                 % 4
 paramValues('compensation') = {'comp', 'no_comp'};                              % 5
-% paramValues('plot_case') = {'zx', 'z', 'xy', 'zy'};                             % 6
-paramValues('plot_case') = {'zx'};                             % 6
+paramValues('plot_case') = {'zx', 'z', 'xy', 'zy'};                             % 6
+% paramValues('plot_case') = {'zx'};                             % 6
 
 % handle to get cell id for parameters
 cellID = @(keys) find(  contains(paramValues.keys, keys)  );
 
 %% ======================== handle to the plot fn =========================
 % todo: auto detect scale
-plot_api_handle = @(varargin) focus_into_medium( ...
+plot_api_handle = @(varargin) focus_into_medium(         ...
                 varargin{  cellID('n1')  },              ...   % n1: refractive index 1
                 varargin{  cellID('n2')  },              ...   % n2: refractive index 2
                 z0,                                      ...   % z0: interface position on z-axis
