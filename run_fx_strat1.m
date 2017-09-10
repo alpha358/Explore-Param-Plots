@@ -1,11 +1,11 @@
 %================================= Paths ==================================
-addpath(genpath('C:\Users\Alfonsas\Desktop\MATLAB\Geom-Plate-Diffraction'))
+addpath(genpath('C:\Users\Alfonsas\Desktop\FX_ML'))
 
 
 
 
 %% ============================ Initial stuff =============================
-plot_name = 'BlazeGF_Thin_Lens_Focus4';
+plot_name = 'ann_strat1_iwma';
 
 % Limit threads for stability
 % maxNumCompThreads(8);
@@ -18,20 +18,19 @@ plot_name = 'BlazeGF_Thin_Lens_Focus4';
 
 paramValues =  containers.Map();
 
-% TODO: make allcomb work at 5
 % Rounding to 5 decimal places due to rounding in allcomb
-paramValues('retardance') = num2cell( round(linspace(0, 2, 40), 5, 'significant') );  % focusing angle   % 1
-paramValues('E_in') = {'x', 'y', 'Circular_L', 'Circular_R'};
-paramValues('b') = num2cell( round([20 30], 5, 'significant') );
+paramValues('lag') = num2cell( [2 3 4 5 6] );
+paramValues('N_train')     = num2cell( [50 100 200 500 800] );
+paramValues('expiration')   = num2cell( [2 3 4 10] );
 % handle to get cell id for parameters
 cellID = @(keys) find(  contains(paramValues.keys, keys)  );
 
 %% ======================== handle to the plot fn =========================
 % todo: auto detect scale
-plot_api_handle = @(varargin) focus_blaze_grating(         ...
-                varargin{  cellID('retardance')  },              ...   % n1: refractive index 1
-                varargin{  cellID('b')  }, ...    
-                varargin{  cellID('E_in')  } ...
+plot_api_handle = @(varargin) run_strategy1_fn(     ...    
+                varargin{ cellID('lag')  },         ...
+                varargin{ cellID('expiration') },   ...      
+                varargin{ cellID('N_train') }       ...  
               );
 
 
