@@ -1,129 +1,42 @@
 <html>
 <head>
-    <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/jquery-ui.css"/>
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.js"></script>
     <script type="text/javascript" src="js/require.js"></script>
     <script type="text/javascript" src="parameters.json"></script>
-    <!-- TODO: MAKE RESPONSIVE -->
-    <script>
-      // ini array current parameter values
-      window.param_set = [];
-
-      function create_slider(id, values) {
-
-        // Add new HTML
-        // --------------------------------------------
-        $('#sliders_tbl').append(
-          "\n <tr> \
-                <td>"+id+"</td> \
-                <td> <div id='param_"+id+"' class='slider'></div>  </td>\
-                <td id=val_param_"+id+">"+values[0]+"</td>\
-              </tr>"
-        );
-
-        // initialize JS
-        // ---------------------------------------------
-        // Recording Default  Selected Value
-        window.param_set[id] = values[0];
-
-        // Initializing slider
-        $("#param_"+id).slider({
-            min: 0,
-            max: values.length - 1,
-            value: 0,
-            slide: function(event, ui) {
-                // $("#amount").val();
-                $('#val_param_'+id).html(
-                    values[ui.value]
-                );
-                window.param_set[id]=values[ui.value];
-                update_img();
-            }
-        });
-
-      }
-
-      // ---------------------------------------------------------------------
-
-      function generate_img_name(name, paramObj) {
-        // name - the name of the plot
-        // paramObj - parameter names and value arrays object
-        // paramValues - specific values of all parameters (vector - not matrix)
-        img_name = name;
-
-        n = 0; // not nice but works
-        for (var p in paramObj) {
-          img_name = img_name +'_'+ p + '='+window.param_set[p];
-          n++;
-        }
-        return img_name+'.png';
-      }
-
-      function update_img() {
-        img_name = generate_img_name(
-                                window.plot_name,
-                                window.param,
-                   );
-        $("img#the_img").attr(
-          {"src" : "img/"+img_name}
-        );
-        return img_name;
-
-      }
-
-      // ------------- Loading JSON data ----------------------
-      data = jQuery.parseJSON( json_string );
-      window.param = data.parameters;
-      window.plot_name = data.plot_name;
-
-    </script>
+    <script type="text/javascript" src="js/run.js"></script>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
-<body>
-<style>
-    .slider {
-        width: 300px;
-        /*position: inherit;*/
-        /*floar: left;*/
-    }
-    table td {
-        padding: 10px;
-    }
-    #the_img{
-      display: block;
-      max-height: 660px;
-      width: auto;
-      height: auto;
-    }
-</style>
-  <table>
-    <tr>
-      <td style="border:none">
-        <img id="the_img" src="" alt="">
-      </td>
-      <td style="border:none">
-        <table id='sliders_tbl'>
-          <thead>
-            <th colspan="2">Parameters</th>
-          </thead>
-        </table>
-      </td>
-    </tr>
-  </table>
-<script type="text/javascript">
-  //  ----------  Creating sliders --------------------------
-  $( document ).ready(function() {
+  <body>
+    <div class="section group">
+    	<div class="col span_1_of_2" style="width: 42.5%">
+      	<img id="the_img" src="" alt="">
+    	</div>
+    	<div class="col span_1_of_2" >
+        <div class="parent_cn">
+          <table id='sliders_tbl' class="child_cn">
+            <thead>
+              <th colspan="2">Parameters</th>
+            </thead>
+          </table>
+        </div>
+    	</div>
+    </div>
 
-    // creating sliders
-    for (p in window.param) {
-      create_slider(p, window.param[p]);
-    }
+    <script type="text/javascript">
+      //  ----------  Creating sliders --------------------------
+      $( document ).ready(function() {
 
-    // update img
-    update_img();
+        // creating sliders
+        for (p in window.param) {
+          create_slider(p, window.param[p]);
+        }
 
-  });
-</script>
-</body>
+        // update img
+        update_img();
+
+      });
+    </script>
+  </body>
 </html>

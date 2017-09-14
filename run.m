@@ -2,7 +2,7 @@
 
 
 %% Initial stuff
-plot_name = 'test2';
+plot_name = 'test3';
 
 % Cell arrays determine for all possible parameter values.
 paramValues =  containers.Map();

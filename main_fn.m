@@ -69,6 +69,7 @@ function  main_fn( plot_name, paramValues, plot_api_handle)
       % --------------------------- Save the plot ---------------------------
       img_name = generate_img_name( plot_name,  paramNamesCells, p);
       save_param_plot(fig, plot_name, img_name);
+      save(['results/' plot_name '_last_state.mat'], 'paramValuesCartProd', 'n'); % save last state
   end
   close(wait_h);
 

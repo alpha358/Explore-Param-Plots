@@ -1,6 +1,6 @@
-function [ fig ] = plot_api( a,b,c )
+function plot_api( a,b,c )
 
-  fig = figure();
+%   fig = figure();
   x = linspace(0, 10, 100);
   y = a.*x.^2 + b.*x ;
   
