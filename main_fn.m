@@ -56,7 +56,9 @@ function  main_fn( plot_name, paramValues, plot_api_handle)
 
   %% ============================ Generate plots ============================
   wait_h = waitbar2(0,'Computing Plots');
-  fig = figure();
+  % fig = figure();
+  fig = figure('units','normalized','outerposition',[0 0 1 1]);
+
   for n = 1:length(paramValuesCartProd) % go trough all the param values
       waitbar2( n / length(paramValuesCartProd),  wait_h);
       % ------------------- Multiple parameter asignment --------------------
