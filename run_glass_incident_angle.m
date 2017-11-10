@@ -3,7 +3,7 @@ addpath(genpath('C:\Users\Alfonsas\Desktop\MATLAB\Focus_Into_Medium'))
 
 
 %% ============================ Initial stuff =============================
-plot_name = 'glass_angle';
+plot_name = 'glass_angle2';
 
 % Limit threads for stability
 % maxNumCompThreads(8);
@@ -38,6 +38,7 @@ paramValues('alpha') = num2cell( round([0 1 3 10 15 30 40], 5, 'significant') );
 
 % handle to get cell id for parameters
 cellID = @(keys) find(  contains(paramValues.keys, keys)  );
+% ismember is alternative to contains
 
 %% ======================== handle to the plot fn =========================
 % todo: auto detect scale
