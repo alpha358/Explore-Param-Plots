@@ -5,7 +5,7 @@ addpath(genpath('C:\Users\Alfonsas\Desktop\FX_ML'))
 
 
 %% ============================ Initial stuff =============================
-plot_name = 'ann_strat1_iwma';
+plot_name = 'MA_known3';
 
 % Limit threads for stability
 % maxNumCompThreads(8);
@@ -19,18 +19,18 @@ plot_name = 'ann_strat1_iwma';
 paramValues =  containers.Map();
 
 % Rounding to 5 decimal places due to rounding in allcomb
-paramValues('lag') = num2cell( [2 3 4 5 6] );
-paramValues('N_train')     = num2cell( [50 100 200 500 800] );
-paramValues('expiration')   = num2cell( [2 3 4 10] );
+paramValues('trade_scale') = num2cell( [7 8 9 10 11 12 13 15 18 19 20] );
+paramValues('lag')     = num2cell( [1 2 3 4 5 6 ] );
+paramValues('ma_steps_ahed')   = num2cell( [1 2 3 4 5 6] );
 % handle to get cell id for parameters
 cellID = @(keys) find(  contains(paramValues.keys, keys)  );
 
 %% ======================== handle to the plot fn =========================
 % todo: auto detect scale
-plot_api_handle = @(varargin) run_strategy1_fn(     ...    
-                varargin{ cellID('lag')  },         ...
-                varargin{ cellID('expiration') },   ...      
-                varargin{ cellID('N_train') }       ...  
+plot_api_handle = @(varargin) strategy_test_MA(     ...    
+                varargin{ cellID('trade_scale')  },         ...
+                varargin{ cellID('lag') },   ...      
+                varargin{ cellID('ma_steps_ahed') }       ...  
               );
 
 

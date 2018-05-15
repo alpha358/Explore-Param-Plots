@@ -44,6 +44,15 @@ function  main_fn( plot_name, paramValues, plot_api_handle)
   dataJSON = struct();
   dataJSON.plot_name = plot_name;
   dataJSON.parameters = map2struct(paramValues);
+  
+  %TODO: JUST for complex numbers
+%   if dataJSON.parameters.epsilon
+      dataJSON.parameters.epsilon = ...
+          arrayfun( @(x) cellstr(num2str(x)), ...
+                        [dataJSON.parameters.epsilon{:}]...
+                   );
+%   end
+  
 
   savejson('', dataJSON, FileName);
 
@@ -71,7 +80,7 @@ function  main_fn( plot_name, paramValues, plot_api_handle)
       % --------------------------- Save the plot ---------------------------
       img_name = generate_img_name( plot_name,  paramNamesCells, p);
       save_param_plot(fig, plot_name, img_name);
-      save(['results/' plot_name '_last_state.mat'], 'paramValuesCartProd', 'n'); % save last state
+%       save(['results/' plot_name '_last_state.mat'], 'paramValuesCartProd', 'n'); % save last state
   end
   close(wait_h);
 
